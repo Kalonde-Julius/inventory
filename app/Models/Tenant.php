@@ -25,4 +25,23 @@ class Tenant extends Model
     Public function providers() {
         return $this->hasMany(Provider::class);
     }
+
+    Public function products() {
+        return $this->hasMany(Product::class);
+    }
+
+    Public function categories() {
+        return $this->hasMany(Category::class);
+    }
+
+    Public function units() {
+        return $this->hasMany(Unit::class);
+    }
+
+   /* protected $casts = [
+        'data' => 'json'
+    ];
+    */
+
+
 }

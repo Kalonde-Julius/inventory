@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Filament\TenantManager\Resources\Tenants\Schemas;
+namespace App\Filament\Resources\Units\Schemas;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
 
-class TenantForm
+class UnitForm
 {
     public static function configure(Schema $schema): Schema
     {
@@ -14,15 +14,9 @@ class TenantForm
             ->components([
                 TextInput::make('name')
                     ->required(),
-
-                TextInput::make('email')
-                    ->label('Email address')
-                    ->email()
-                    ->required(),
-
-                TextInput::make('contact')
-                    ->required(),
-                    
+                Textarea::make('key')
+                    ->required()
+                    ->columnSpanFull(),
                 Textarea::make('data')
                     ->columnSpanFull(),
             ]);
