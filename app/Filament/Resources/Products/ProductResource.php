@@ -12,6 +12,7 @@ use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class ProductResource extends Resource
@@ -29,7 +30,44 @@ class ProductResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return ProductsTable::configure($table);
+        return ProductsTable::configure($table)
+
+            ->pushColumns([
+                TextColumn::make('category_id')
+                    ->numeric()
+                    ->sortable(),
+
+                TextColumn::make('code')
+                    ->searchable(),
+
+                TextColumn::make('name')
+                    ->searchable(),
+
+                TextColumn::make('quantity')
+                    ->numeric()
+                    ->sortable(),
+
+                TextColumn::make('price')
+                    ->prefix('UGX ')
+                    ->sortable(),
+
+                TextColumn::make('unit_key')
+                    ->searchable(),
+
+                TextColumn::make('expires_at')
+                    ->date()
+                    ->sortable(),
+
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ]);
     }
 
     public static function getRelations(): array

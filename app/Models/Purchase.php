@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Purchase extends Model
 {
     protected $guarded = [];
 
@@ -16,24 +16,26 @@ class Product extends Model
         return $this->belongsTo(Tenant::class);
     }
 
-    public function category() {
-        return $this->belongsTo(Category::class);
+    public function product() {
+        return $this->belongsTo(Product::class);
     }
 
-   /* public function unit() {
+    public function category() {
+        return $this->hasMany(Category::class);
+    }
+
+    public function unit() {
         return $this->hasMany(Unit::class);
     }
-    */
-    
-    public function purchases() {
+
+    // Purchase has many products
+    public function products() {
         return $this->hasMany(PurchaseProduct::class);
     }
-    public function providers() {
-        return $this->belongsToMany(Provider::class, 'purchase_products', 'product_id', 'provider_id');
-    }
 
-    public function products(){
-    return $this->belongsTo(Product::class);
-}
+    // Purchase belongs to a provider
+    public function provider() {
+        return $this->belongsTo(Provider::class);
+    }
 
 }

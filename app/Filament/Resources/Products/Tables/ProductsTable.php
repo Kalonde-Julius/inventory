@@ -14,6 +14,12 @@ class ProductsTable
     {
         return $table
             ->columns([
+                TextColumn::make('id')
+                    ->label('Product ID')
+                    ->numeric()
+                    ->searchable()
+                    ->sortable(),
+
                 TextColumn::make('category_id')
                     ->numeric()
                     ->sortable(),
@@ -32,9 +38,8 @@ class ProductsTable
                     ->prefix('UGX ')
                     ->sortable(),
 
-                TextColumn::make('unit_id')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('unit_key')
+                    ->searchable(),
 
                 TextColumn::make('expires_at')
                     ->date()

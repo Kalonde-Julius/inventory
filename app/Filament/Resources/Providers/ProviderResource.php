@@ -42,7 +42,7 @@ class ProviderResource extends CustomerResource
                 TextInput::make('email'),
                 TextInput::make('contact'),
                 TextInput::make('address'),
-                KeyValue::make('data')->label('Additional information'),
+                KeyValue::make('data')->label('Additional information')
             ]);
     }
 

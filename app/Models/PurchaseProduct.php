@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class PurchaseProduct extends Model
 {
-    protected $guarded = [];
+        protected $guarded = [];
 
     protected $casts = [
         'data' => 'json'
@@ -20,11 +20,9 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-   /* public function unit() {
+    public function unit() {
         return $this->hasMany(Unit::class);
     }
-    */
-    
     public function purchases() {
         return $this->hasMany(PurchaseProduct::class);
     }
@@ -33,7 +31,6 @@ class Product extends Model
     }
 
     public function products(){
-    return $this->belongsTo(Product::class);
+    return $this->hasMany(Product::class);
 }
-
 }

@@ -11,19 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('purchase_products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tenant_id');
-            $table->foreignId('category_id')->references('id')->on('categories' );
-            $table->string('name');
-            $table->string('code')->unique();
+            $table->foreignId('purchase_id')->references('id')->on('purchases');
+            $table->foreignId('product_id')->references('id')->on('products');
+            $table->foreignId('category_id')->references('id')->on('categories');
             $table->string('unit_key');
             $table->decimal('quantity')->default(0);
             $table->decimal('price')->default(0);
-            $table->decimal('safety_stock')->default(0);
-            $table->text('description')->nullable();
+            $table->decimal('subtotal');
+            $table->decimal('discount')->default(0);
+            $table->decimal('tax')->default(0);
+            $table->decimal('total');
             $table->json('data')->nullable();
-            $table->date('expires_at')->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('purchase_products');
     }
 };

@@ -14,8 +14,10 @@ class CategoryForm
             ->components([
                 TextInput::make('name')
                     ->required(),
+
                 Textarea::make('description')
                     ->columnSpanFull(),
+                    
                 Textarea::make('data')
                     ->columnSpanFull(),
             ]);

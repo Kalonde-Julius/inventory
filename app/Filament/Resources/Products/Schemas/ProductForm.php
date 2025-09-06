@@ -26,11 +26,6 @@ class ProductForm
                     ->relationship('category', 'name')
                     ->required(),
 
-                Select::make('unit_id')
-                    ->label('Unit')
-                    ->relationship('unit', 'key')
-                    ->required(),
-
                 TextInput::make('quantity')
                     ->required()
                     ->numeric()
@@ -45,13 +40,12 @@ class ProductForm
                 TextInput::make('safety_stock')
                     ->helperText('The minimum stock to be stored')
                     ->numeric(),
+                    
+                TextInput::make('unit_key')
+                    ->label('Unit'),
 
                 Textarea::make('description')
                     ->columnSpanFull(),
-
-                TextInput::make('unit_id')
-                    ->required()
-                    ->numeric(),
 
                 KeyValue::make('data')
                 ->label('Additional Data'),
