@@ -16,6 +16,7 @@ use App\Filament\Resources\Customers\Pages\CreateCustomer;
 use App\Filament\Resources\Customers\Schemas\CustomerForm;
 use App\Filament\Resources\Customers\Tables\CustomersTable;
 use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section as ComponentsSection;
 use Filament\Tables\Columns\TextColumn;
@@ -43,11 +44,13 @@ class CustomerResource extends Resource
                 ComponentsSection::make()
                 ->columns(2)
                 ->schema([
-                TextInput::make('name'),
-                TextInput::make('email'),
-                TextInput::make('contact'),
-                TextInput::make('address'),
-                KeyValue::make('data')->label('Additional information'),
+                    Select::make('provider_id')
+                        ->label('Provider')
+                        ->relationship('provider', 'name')
+                        ->columnSpan(2)
+                        ->createOptionForm(function() {
+                            return (new CustomerForm())->getCustomerFormSchema();
+                        })
             ])
         ]);
     }

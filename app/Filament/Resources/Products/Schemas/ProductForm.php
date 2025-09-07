@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Products\Schemas;
 
+use App\Models\Category;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
@@ -14,43 +15,48 @@ class ProductForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
-            ->components([
-                TextInput::make('name')
-                    ->required(),
+            ->components(self::getProductForm());
+    }
 
-                TextInput::make('code')
-                    ->required(),
+    public static function getProductForm() {
+        return [
+            TextInput::make('name')
+                ->required(),
 
-                Select::make('category_id')
-                    ->label('Category')
-                    ->relationship('category', 'name')
-                    ->required(),
+            TextInput::make('code')
+                ->required(),
 
-                TextInput::make('quantity')
-                    ->required()
-                    ->numeric()
-                    ->default(1),
+            Select::make('category_id')
+                ->label('Category')
+                ->options(Category::pluck('name', 'id')->toArray())
+                ->searchable()
+                ->required(),
 
-                TextInput::make('price')
-                    ->required()
-                    ->numeric()
-                    ->default(0)
-                    ->prefix('UGX'),
+            TextInput::make('quantity')
+                ->required()
+                ->numeric()
+                ->default(1),
 
-                TextInput::make('safety_stock')
-                    ->helperText('The minimum stock to be stored')
-                    ->numeric(),
-                    
-                TextInput::make('unit_key')
-                    ->label('Unit'),
+            TextInput::make('price')
+                ->required()
+                ->numeric()
+                ->default(0)
+                ->prefix('UGX'),
 
-                Textarea::make('description')
-                    ->columnSpanFull(),
+            TextInput::make('safety_stock')
+                ->helperText('The minimum stock to be stored')
+                ->numeric(),
 
-                KeyValue::make('data')
-                ->label('Additional Data'),
+            TextInput::make('unit_key')
+                ->label('Unit'),
 
-                DatePicker::make('expires_at'),
-            ]);
+            Textarea::make('description')
+                ->columnSpanFull(),
+
+            KeyValue::make('data')
+            ->label('Additional Data'),
+
+            DatePicker::make('expires_at'),
+        ];
     }
 }

@@ -20,7 +20,8 @@ class PurchasesTable
                 TextColumn::make('provider_id')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('invoice_no')
+                TextColumn::make('id')
+                    ->label('Invoice_No')
                     ->searchable(),
                 TextColumn::make('purchase_date')
                     ->date()

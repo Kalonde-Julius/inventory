@@ -2,7 +2,10 @@
 
 namespace App\Filament\Resources\Purchases\Schemas;
 
+use App\Filament\Resources\Customers\Schemas\CustomerForm;
+use App\Filament\Resources\Products\Schemas\ProductForm;
 use App\Models\Product;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
@@ -31,12 +34,25 @@ class PurchaseForm
                 ->heading('Provider Details')
                 ->schema([
 
-                TextInput::make('invoice_no')
+               /* TextInput::make('invoice_no')
                     ->required(),
+                */
 
                 Select::make('provider_id')
                     ->label('Provider')
                     ->relationship('provider', 'name')
+                    ->createOptionForm(function() {
+                        $tenantField = [
+                            TextInput::make('tenant_id')
+                                ->default(Filament::getTenant()?->id)
+                                ->label('Tenant')
+                                ->required()
+                                ->numeric(),
+                        ];
+                        return array_merge($tenantField,
+                        (new CustomerForm())->getCustomerFormSchema());
+                        // (new CustomerForm())->getCustomerFormSchema();
+                    })
                     ->required(),
 
                 DatePicker::make('purchase_date')
@@ -70,42 +86,21 @@ class PurchaseForm
                         ->relationship('product', 'name')
                         ->searchable()
                         ->required()
-                        ->createOptionForm([
-                            TextInput::make('name')
-                                ->required(),
-
-                            TextInput::make('code')
-                                ->required(),
-
-                            Select::make('category_id')
-                                ->label('Category')
-                                ->relationship('category', 'name')
-                                ->searchable()
-                                ->required(),
-
-                            Select::make('unit_id')
-                                ->label('Unit')
-                                ->relationship('unit', 'key')
-                                ->searchable()
-                                ->required(),
-
-                            TextInput::make('quantity')
+                        ->createOptionForm(function() {
+                            $tenantField = [
+                            TextInput::make('tenant_id')
+                                ->default(Filament::getTenant()?->id)
+                                ->label('Tenant')
                                 ->required()
-                                ->numeric()
-                                ->default(1),
-
-                            TextInput::make('price')
-                                ->required()
-                                ->numeric()
-                                ->default(0)
-                                ->prefix('UGX'),
-
-                            TextInput::make('safety_stock')
-                                ->helperText('The minimum stock to be stored')
                                 ->numeric(),
+                            ];
+                        return array_merge($tenantField, ProductForm::getProductForm());
+                        })
 
-                            DatePicker::make('expires_at'),
-                        ]),
+                        ->createOptionUsing(function (array $data): Product {
+                            $product = Product::create($data);
+                            return $product;
+                        }),
 
                         TextInput::make('price')
                             ->required()
